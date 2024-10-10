@@ -1,0 +1,183 @@
+/* General Styles */
+.property-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.property-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Image Slider */
+.image-slider {
+    position: relative;
+    width: 100%;
+}
+
+.product-image {
+    width: 100%;
+    height: 60vh; /* Adjusted for better responsiveness */
+    object-fit: cover;
+}
+
+.arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    transition: background-color 0.3s;
+}
+
+.arrow-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
+/* Property Information */
+.property-info {
+    padding: 20px;
+}
+
+.property-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.project-name {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.property-description {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.property-features {
+    margin-top: 20px;
+}
+
+/* Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.detail-item {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Plot Grid */
+.plot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+}
+
+.plot-item {
+    background: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .property-title {
+        font-size: 1.8rem;
+    }
+
+    .project-name {
+        font-size: 1.3rem;
+    }
+
+    .property-description {
+        margin: 10px 0;
+    }
+
+    .details-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .property-title {
+        font-size: 1.6rem;
+    }
+
+    .project-name {
+        font-size: 1.2rem;
+    }
+
+    .property-description {
+        margin: 8px 0;
+        font-size: 0.95rem;
+    }
+
+    .details-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .product-image {
+        height: 40vh; /* Adjusted for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .property-title {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+
+    .project-name {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .property-description {
+        margin: 5px 0;
+        font-size: 0.85rem;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr; /* Single column layout for small devices */
+    }
+
+    .plot-grid {
+        grid-template-columns: repeat(4, 1fr); /* Reduce the number of columns */
+    }
+
+    .arrow-btn {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .product-image {
+        height: 30vh; /* Smaller image height for mobile */
+    }
+}

@@ -36,7 +36,6 @@ nav ul li{
 
 
 .hamburger{
-    width: 50px;
     padding:0px 20px;
     display: none;
 }
@@ -53,7 +52,7 @@ nav h1{
         display: block;
         position: absolute;
         z-index: 100;
-        width: 40px;
+        width: 80px;
         
     }
     nav  h1{

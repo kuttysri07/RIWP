@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
+import Nav2 from '../Nav2/Nav2';
 const APIURL = process.env.REACT_APP_API_URL;
 
 const Sellercontrol = () => {
   const [userdata, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [activeSellerId, setActiveSellerId] = useState(null); // Track which seller's "More" section is open
   // Fetch user data
   const handleFetch = () => {
     axios
@@ -47,6 +48,11 @@ const Sellercontrol = () => {
     handleFetch();
   }, []);
 
+
+  const toggleBtnMore = (id) => {
+    setActiveSellerId(activeSellerId === id ? null : id);
+}
+
   if (loading) {
     return <div>Loading...</div>; // Show loading indicator while data is being fetched
   }
@@ -56,8 +62,12 @@ const Sellercontrol = () => {
 
   return (
     <Fragment>
+
+
+      <Nav2 />
+
       <center>
-        <h1>Admin Panel - Pending Approvals</h1>
+        <h1 className='heading'>Admin Panel - Property Pending Approvals</h1>
       </center>
 
       {filteredUsers.length === 0 ? (
@@ -65,79 +75,145 @@ const Sellercontrol = () => {
           <p>No approvals pending.</p>
         </center>
       ) : (
-        <div className="home-container">
+
+
+
+        <div className="buyer-container">
           {filteredUsers.map((data, index) => (
-            <div className="user-card" key={index}>
-              <label>Property ID:</label>
-                                <input type="text" value={data.propertyId} readOnly />
-                                
-                                <label>Company Name:</label>
-                                <input type="text" value={data.companyName} readOnly />
+            <div className="buyer-card" key={index}>
+<center><img className='img'  src={data.uploadimage} alt="" /></center>
+                    
+                    <table className="details-table">
+                    <tbody>  
+                                    <tr>
+                                        <th>State</th>
+                                        <td>{data.state}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>District</th>
+                                        <td>{data.district}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Property Type</th>
+                                        <td>{data.propertytype}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <td>{data.companyName}</td>
+                                    </tr>
 
-                                <label>About Company:</label>
-                                <input type="text" value={data.aboutCompany} readOnly />
+                        </tbody>
 
-                                <label>Property Name:</label>
-                                <input type="text" value={data.propertyName} readOnly />
+                </table>
+                        <button className={activeSellerId === data._id ?"morehide":'more'} onClick={() => toggleBtnMore(data._id)}>
+                             More
+                        </button>
 
-                                <label>Property Details:</label>
-                                <input type="text" value={data.propertyDetails} readOnly />
-
-                                <label>Features:</label>
-                                <input type="text" value={data.features} readOnly />
-
-                                <label>Amenities:</label>
-                                <input type="text" value={data.amenities} readOnly />
-
-                                <label>No. of Plots:</label>
-                                <input type="text" value={data.noOfPlots} readOnly />
-
-                                <label>Plot Size (Min):</label>
-                                <input type="text" value={data.plotSizeMin} readOnly />
-
-                                <label>Plot Size (Max):</label>
-                                <input type="text" value={data.plotSizeMax} readOnly />
-
-                                <label>Location:</label>
-                                <input type="text" value={data.location} readOnly />
-
-                                <label>Nearby Spots:</label>
-                                <input type="text" value={data.nearbySpots} readOnly />
-
-                                <label>Legalities:</label>
-                                <input type="text" value={data.legalities} readOnly />
-
-                                <label>Address:</label>
-                                <input type="text" value={data.address} readOnly />
-
-                                <label>Place:</label>
-                                <input type="text" value={data.place} readOnly />
-
-                                <label>Google Map:</label>
-                                <input type="text" value={data.googleMap} readOnly />
-
-                                <label>Launch Date:</label>
-                                <input type="text" value={data.launchDate} readOnly />
-
-                                <label>Plot Price:</label>
-                                <input type="text" value={data.plotPrice} readOnly />
-                                <label>Closed Plots / Remaining Plots:</label>
-                                <input type='checkbox' checked={data.plot.one} readOnly />
-                                <input type='checkbox' checked={data.plot.two} readOnly />
-                                <input type='checkbox' checked={data.plot.three} readOnly />
-                                <input type='checkbox' checked={data.plot.four} readOnly />
-                                <input type='checkbox' checked={data.plot.five} readOnly />
-                                <input type='checkbox' checked={data.plot.six} readOnly />
-                                <input type='checkbox' checked={data.plot.seven} readOnly />
-                                <input type='checkbox' checked={data.plot.eight} readOnly />
-                                <input type='checkbox' checked={data.plot.nine} readOnly />
-                                <input type='checkbox' checked={data.plot} readOnly />
-
-                                <label>Status Approvel:</label>
-                                <label>DTCP</label>
-                                <input type='checkbox' checked={data.status.dtcp} readOnly />
-                                <label>RERA</label>
-                                <input type='checkbox' checked={data.status.rera} readOnly />
+                                  {activeSellerId === data._id && (
+                                     <table className="details-table">
+                                     <tbody>
+                                             <tr>
+                                                 <th>About Company</th>
+                                                 <td>{data.aboutCompany}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Property Name</th>
+                                                 <td>{data.propertyName}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Property Details</th>
+                                                 <td>{data.propertyDetails}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Features</th>
+                                                 <td>{data.features}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Amenities</th>
+                                                 <td>{data.amenities}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>No. of Plots</th>
+                                                 <td>{data.noOfPlots}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Plot Size (Min sq.ft)</th>
+                                                 <td>{data.plotSizeMin}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Plot Size (Max sq.ft)</th>
+                                                 <td>{data.plotSizeMax}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Location</th>
+                                                 <td>{data.location}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Nearby Spots</th>
+                                                 <td>{data.nearbySpots}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Status Approvel</th>
+                                                 <td>{data.status.dtcp&&data.status.rera ? "DTCP AND RERA " :data.status.dtcp ? "DTCP" :data.status.rera? "RERA Facing" :""}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Legalities</th>
+                                                 <td>{data.legalities}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Address</th>
+                                                 <td>{data.address}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Place</th>
+                                                 <td>{data.place}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Google Map</th>
+                                                 <td>{data.googleMap}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Launch Date</th>
+                                                 <td>{data.launchDate}</td>
+                                             </tr>
+                                             <tr>
+                                                 <th>Plot Price (sq.ft)</th>
+                                                 <td>{data.plotPrice}</td>
+                                             </tr>
+                                 <tr>
+                                 <th>Closed Plots / Remaining Plot</th>
+                                       <td>
+                                         1
+                                         <input type="checkbox" checked={data.plot.one} />
+                                         2
+                                         <input type="checkbox" checked={data.plot.two} />
+                                         3
+                                         <input type="checkbox" checked={data.plot.three} />
+                                         4
+                                         <input type="checkbox" checked={data.plot.four} />
+                                         5
+                                         <input type="checkbox" checked={data.plot.five} />
+                                         6
+                                         <input type="checkbox" checked={data.plot.six} />
+                                         7
+                                         <input type="checkbox" checked={data.plot.seven} />
+                                         8
+                                         <input type="checkbox" checked={data.plot.eight} />
+                                         9
+                                         <input type="checkbox" checked={data.plot.nine} />
+                                         10
+                                         <input type="checkbox" checked={data.plot.ten} />
+                                       </td>
+                                 </tr>
+         
+                                     
+         
+                                 
+                             </tbody>
+                         </table>
+                                )} 
+                              
 
       
 

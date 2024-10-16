@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { Fragment ,useEffect,useState} from 'react'
 import "./buyercontrol.css";
+import Nav2 from '../Nav2/Nav2';
 const APIURL = process.env.REACT_APP_API_URL;
 
 const Buyercontrol = () => {
 
     const [userdata, setUserData] = useState([]);
     const [loading, setLoading] = useState(true); 
-    
+    const [activeBuyerId, setActiveBuyerId] = useState(null); // State to track which buyer's "More" section is open
 
       // Fetch user data
   const handleFetch = () => {
@@ -52,6 +53,11 @@ const Buyercontrol = () => {
         handleFetch();
       }, []);
 
+      const toggleBtnMore = (buyerId) => {
+        // Toggle the activeBuyerId; if the same ID is clicked again, close it
+        setActiveBuyerId(activeBuyerId === buyerId ? null : buyerId);
+    };
+
 
       if (loading) {
         return <div>Loading...</div>; // Show loading indicator while data is being fetched
@@ -61,68 +67,122 @@ const Buyercontrol = () => {
   const filteredUsers = userdata.filter(user => user.approve === false);
   return (
     <Fragment>
-         <center><h1>Admin Panel - Pending Approvals</h1></center> 
+    <Nav2 />
+
+      
+         <center><h1 className='heading'>Admin Panel - House Pending Approvals</h1></center> 
 {filteredUsers.length === 0 ? (
   <center>
   <p>No approvals pending.</p>
 </center>
 ) :(
-  <div className="home-container">
+  <div className="buyer-container">
         {filteredUsers.map((data, index) => (
-          <div className="user-card" key={index}>
-           <label>Project Name:</label>
-    <input type="text" value={data.projectName} readOnly />
-    
-    <label>Title:</label>
-    <input type="text" value={data.title} readOnly />
+         
 
-    <label>Sale Type:</label>
-    <input type="text" value={data.saleType} readOnly />
+    <div className="buyer-card" key={data._id}>
+    <div className="image-container">
+   
+    <center>
+        <img className="img" src={data.uploadimage[0]} alt="" />
+    </center>
+   
+</div>
 
-    <label>Society:</label>
-    <input type="text" value={data.society} readOnly />
+                      <table className="details-table">  
+                        <tbody>  
+                          <tr>
+                            <th>Project Name</th>
+                            <td>{data.projectName}</td>
+                          </tr>
+                          <tr>
+                            <th>Title</th>
+                            <td>{data.title}</td>
+                          </tr>
+                          <tr>
+                            <th>Sale Type</th>
+                            <td>{data.saleType}</td>
+                          </tr>
+                          <tr>
+                            <th>Society</th>
+                            <td>{data.society}</td>
+                          </tr>
+                          </tbody>
+                          </table>
 
-    <label>Approved Status (DTCP / RERA):</label>
-    <input type="text" value={`DTCP: ${data.status.dtcp ? 'Yes' : 'No'} / RERA: ${data.status.rera ? 'Yes' : 'No'}`} readOnly />
+                          <button className={activeBuyerId === data._id ?"morehide":'more'} onClick={() => toggleBtnMore(data._id)}>
+                             More
+                          </button>
 
-    <label>Construction Status:</label>
-    <input type="text" value={data.constructionStatus} readOnly />
+                          {activeBuyerId === data._id && (
+                          <table className="details-table">
+                          <tbody>
+                          <tr>
+                            <th>Approved Status</th>
+                            <td> {data.status.rera && data.status.dtcp? "DTCP AND RERA" : data.status.dtcp ? 'DTCP' : data.status.rera ? 'RERA':" NO DTCP AND RERA"}</td>
+                          </tr>
+                          <tr>
+                            <th>Construction Status</th>
+                            <td>{data.constructionStatus}</td>
+                          </tr>
+                          <tr>
+                            <th>House Type</th>
+                            <td>{data.houseType}</td>
+                          </tr>
+                          <tr>
+                            <th>Budget</th>
+                            <td>{data.budget}</td>
+                          </tr>
+                          <tr>
+                            <th>Build Up Area</th>
+                            <td>{data.buildUpArea}</td>
+                          </tr>
+                          <tr>
+                            <th>Carpet Area</th>
+                            <td>{data.carpetArea}</td>
+                          </tr>
+                          <tr>
+                            <th>Total Floors</th>
+                            <td>{data.totalFloors}</td>
+                          </tr>
+                          <tr>
+                            <th>Bedrooms</th>
+                            <td>{data.bedrooms}</td>
+                          </tr>
+                          <tr>
+                            <th>Bathrooms</th>
+                            <td>{data.bathrooms}</td>
+                          </tr>
+                          <tr>
+                            <th>Balcony</th>
+                            <td>{data.balcony}</td>
+                          </tr>
+                          <tr>
+                            <th>Furnishing</th>
+                            <td>{data.furnishing}</td>
+                          </tr>
+                          <tr>
+                            <th>Car Parking</th>
+                            <td>{data.carParking}</td>
+                          </tr>
+                          <tr>
+                            <th>Facing</th>
+                            <td>{data.facing}</td>
+                          </tr>
+                          <tr>
+                            <th>Description</th>
+                            <td>{data.description}</td>
+                          </tr>
+                          <tr>
+                            <th>Approved</th>
+                            <td>{data.approve ? 'Yes' : 'No'}</td>
+                          </tr>
+                        </tbody>
+                      </table>)}
+                         
 
-    <label>House Type:</label>
-    <input type="text" value={data.houseType} readOnly />
-
-    <label>Budget:</label>
-    <input type="text" value={data.budget} readOnly />
-
-    <label>Build Up Area:</label>
-    <input type="text" value={data.buildUpArea} readOnly />
-
-    <label>Carpet Area:</label>
-    <input type="text" value={data.carpetArea} readOnly />
-
-    <label>Total Floors:</label>
-    <input type="text" value={data.totalFloors} readOnly />
-
-    <label>Bedrooms:</label>
-    <input type="text" value={data.bedrooms} readOnly />
-
-    <label>Bathrooms:</label>
-    <input type="text" value={data.bathrooms} readOnly />
-
-    <label>Balcony:</label>
-    <input type="text" value={data.balcony} readOnly />
-
-    <label>Furnishing:</label>
-    <input type="text" value={data.furnishing} readOnly />
-
-    <label>Car Parking:</label>
-    <input type="text" value={data.carParking} readOnly />
-
-    <label>Facing:</label>
-    <input type="text" value={data.facing} readOnly />
-
-    <label>Description:</label>
-    <textarea value={data.description} readOnly></textarea>
+                    
+                  
 
     
             <button 

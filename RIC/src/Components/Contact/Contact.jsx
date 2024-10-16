@@ -35,7 +35,7 @@ const Contact = () => {
           <img src={mail} alt="Message Us" />
         </div>
         <h3>MAIL US</h3>
-        <p className="contact-detail"></p>
+      
 
         <a href="mailto:info@saastha.com" className='contact-detail'>digiterdarktech@gmail.com</a>
       </div>

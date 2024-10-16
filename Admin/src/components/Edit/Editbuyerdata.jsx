@@ -79,7 +79,7 @@ const Editbuyerdata = () => {
               <div className="buyer-field">Facing: {data.facing}</div>
               <div className="buyer-field">Description: {data.description}</div>
               <Edit data={data} />
-              <button onClick={() => deleteHandler(data._id)}>Delete</button>
+              <button className='delete' onClick={() => deleteHandler(data._id)}>Delete</button>
             </div>
           ))}
         </div>

@@ -31,3 +31,12 @@
 .modal-footer .btn {
     padding: 10px 20px;
 }
+
+.delete{
+    margin-left: 50px;
+    border: none;
+    background-color: darkblue;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+}

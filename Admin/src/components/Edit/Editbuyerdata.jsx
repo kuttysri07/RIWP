@@ -45,9 +45,9 @@ const Editbuyerdata = () => {
   return (
     <Fragment>
      <Nav2/>
-     <br /><br /> <br />
+   
 
-      <center><h1>Admin Panel - Editing Page</h1></center>
+      <center><h1  className='heading'>Admin Panel - Editing Page</h1></center>
 
       <h1 className="buyer-title">New Houses </h1>
 

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Nav2 from '../Nav2/Nav2';
+import {Image} from "antd"
 import "./property.css"
 const url = process.env.REACT_APP_API_URL;
 
@@ -60,7 +61,8 @@ const Property = () => {
                                     &lt;
                                 </button>
                                 <center>
-                                    <img className="product-image" src={details.uploadimage[count]} alt="" />
+                                    {/* <img className="product-image" src={details.uploadimage[count]} alt="" /> */}
+                                   <Image  className="product-image" src={details.uploadimage[count]}/>
                                 </center>
                                 <button className="arrow-btn right-btn" onClick={handleRightArrowClick}>
                                     &gt;

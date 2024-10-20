@@ -3,6 +3,7 @@ import "./product.css";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Nav2 from '../Nav2/Nav2';
+import {Image} from "antd"
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -61,7 +62,8 @@ const Product = () => {
                         <button className="arrow-btn left-btn" onClick={handleLeftArrowClick}>
                             &lt;
                         </button>
-                        <img className="product-image" src={details.uploadimage[count]} alt={details.title} />
+                        {/* <img className="product-image" src={details.uploadimage[count]} alt={details.title} /> */}
+                        <Image  className="product-image" src={details.uploadimage[count]} alt={details.title}/>
                         <button className="arrow-btn right-btn" onClick={handleRightArrowClick}>
                             &gt;
                         </button>

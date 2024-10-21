@@ -4,7 +4,7 @@ import "./buyerpage.css"; // Import your CSS file
 import Nav2 from '../Nav2/Nav2';
 import { Link, useSearchParams } from 'react-router-dom';
 import Search from '../Search/Search';
-
+import { Button, Result } from 'antd';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -58,9 +58,14 @@ const Buyerpage = () => {
               <Search />
 
             {err ? (
-        <div style={{ textAlign: 'center', color: 'red', marginTop: '20px' }}>
-          <h2>{err}</h2>
-        </div>
+        <Result
+        status="500"
+        title="500"
+        subTitle="Sorry, something went wrong." 
+        extra={<Button  type="primary" href='/'>Back Home</Button>}
+      />
+        
+
       ):(
         <div className="buyer-container">
 

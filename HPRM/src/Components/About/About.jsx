@@ -1,59 +1,44 @@
-import React, { Fragment } from 'react'
-import image1 from "../Assets/3.jpg"
-import "./about.css"
+import React, { Fragment } from 'react';
+import image1 from "../Assets/3.jpg";
+import "./about.css";
 
 const About = () => {
   return (
     <Fragment>
-         <center ><h1 className='heading'>About Us</h1></center> 
-        <div className='aboutcontainer'>
-        
-        
-        
+      <center><h1 className='heading'>About Us</h1></center>
+      
+      <div className='aboutcontainer'>
         <div className='aboutbox'>
-            <div className='left'>
-                <img className='aboutimg' src={image1} alt="" />
-            </div>
-            <div className='right'>
-                <h1>who we are</h1>
-                <h2>Building Dreams, Delivering Excellence</h2>
-                <h3>Our Story </h3>
-                <p>DDT was founded in 2000 with a vision to transform the construction and real estate landscape. Our team of experienced professionals shares a passion for building exceptional spaces that exceed our clients' expectations. With a commitment to quality, integrity, and innovation, we've established ourselves as a leading construction and real estate company</p>
-                <h3>Our Mission</h3>
-                <p>To deliver exceptional construction and real estate solutions that enhance lifestyles, foster communities, and build lasting relationships.
-                                            </p>
-                <h3>Our Values
-                </h3>
-                <ul>
-                  <li>Quality: Uncompromising commitment to excellence.</li>
-                  <li>Integrity: Transparency, honesty, and fairness in all dealings.</li>
-                  <li>Innovation: Embracing cutting-edge technology and sustainable practices.</li>
-                  <li>Customer-Centric: Prioritizing client needs and satisfaction.</li>
-                  <li>Teamwork: Collaborative spirit and mutual respect.</li>
-                </ul>
-                <h3>Our Expertise</h3>
-              <ul>
-                <li> Construction: Residential, commercial, industrial, and infrastructure projects.</li>
-                <li> Real Estate: Development, sales, marketing, and property management.</li>
-                <li> Design-Build: Integrated design and construction services.</li>
-              </ul>
-                <h3>Our Achievements</h3>
-                
-                <ul>
-                  <li>220+ Construction completed</li>
-                  <li>550+ Properties sold</li>
-                </ul>
-                
+          
+          <div className='left'>
+            <img className='aboutimg' src={image1} alt="Resort View" />
+          </div>
 
+          <div className='right'>
+            <h2 className='tagline'>Experience the serenity of nature, tailored to perfection.</h2>
+            
+            <h3>About Us</h3>
+            <p>At Hills Property and Resort Management, we specialize in crafting unforgettable experiences amidst nature's splendor. Our team of experts ensures seamless management, tailored to meet the unique needs of each property and resort.</p>
+            
+            <h3>Services</h3>
+            <ul>
+              <li><strong>Property Management:</strong> Expert care for your hillside property, ensuring maximum returns on investment.</li>
+              <li><strong>Resort Management:</strong> Personalized services to elevate the guest experience, driving loyalty and revenue growth.</li>
+              <li><strong>Hospitality Services:</strong> Customized solutions for events, weddings, and conferences, set amidst breathtaking natural beauty.</li>
+            </ul>
 
-
-
-
-            </div>
+            <h3>Amenities</h3>
+            <ul>
+              <li><strong>Luxurious Accommodations:</strong> Spacious rooms, suites, and villas, blending comfort with scenic views.</li>
+              <li><strong>Fine Dining:</strong> Savor local and international cuisine, crafted by our expert chefs.</li>
+              <li><strong>Recreational Activities:</strong> Explore nature trails, indulge in water sports, or rejuvenate at our spa and wellness centers.</li>
+            </ul>
+          </div>
+          
         </div>
-        </div>
+      </div>
     </Fragment>
-  )
-}
+  );
+};
 
-export default About
+export default About;

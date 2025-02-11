@@ -202,7 +202,7 @@ const Form = () => {
                           }))
                         } />
 
-        <label>RERA</label>
+          <label>RERA</label>
        
                       <input
                         type="checkbox"

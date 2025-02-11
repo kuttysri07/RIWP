@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const PropertyModel = require("./Model/PropertyModel");
 const NewHouseModel = require("./Model/NewHouseModel");
 const path = require("path");
+const BuyerModel = require("./Model/BuyerModel");
 
 app.use(cors());
 app.use(express.json());
@@ -29,7 +30,7 @@ app.post("/propertyregister", async (req, res) => {
 
 app.post("/newhousesregister", async (req, res) => {
   try {
-    const newUser = await NewHouseModel.create(req.body);  // Create a new user in the database
+    const newUser = await BuyerModel.create(req.body);  // Create a new user in the database
     res.status(201).json(newUser);  // Respond with the created user
   } catch (error) {
     console.error("Signup error:", error.message);
@@ -148,7 +149,7 @@ if (req.query.district) {
           $options: "i"  // Case-insensitive search
       };
   }
-      const getUser = await NewHouseModel.find(query);
+      const getUser = await BuyerModel.find(query);
       res.json(getUser); // Send the retrieved users as JSON response
     } catch (error) {
       console.log(error.message);
@@ -186,7 +187,7 @@ if (req.query.district) {
   app.get("/getsinglehouse/:id", async (req, res) => {
     const { id } = req.params; // Get the id from the request params
     try {
-        const getUser = await NewHouseModel.findById(id); // Pass the id directly to findById
+        const getUser = await BuyerModel.findById(id); // Pass the id directly to findById
         if (!getUser) {
             return res.status(404).json({ error: "House not found" }); // Handle case where house is not found
         }

@@ -7,16 +7,15 @@ import { Button, Result } from 'antd';
 
 const url = import.meta.env.VITE_REACT_APP_URL;
 
-const Sellerpage = () => {
+const BuyerPage = () => {
     const [propertydata, setPropertyData] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [searchparams] = useSearchParams();
     const [err, setErr] = useState(null); // To store error messages 
  
 
     const getPropertyData = () => {
-        axios.get(`${url}getproperty?` + searchparams.toString())
+        axios.get(`${url}getnewhouses?` + searchparams.toString())
             .then(res => {
                 if (res.data.length === 0) {
                     setErr("No user found"); // Set the message if no users are found
@@ -53,7 +52,7 @@ const Sellerpage = () => {
     return (
         <Fragment>
             <Nav2 />
-            <h1 className="buyer-title">Seller</h1>
+            <h1 className="buyer-title">Buyer</h1>
             <Search />
 
             {err ? (
@@ -69,13 +68,6 @@ const Sellerpage = () => {
                        
                         return (
                             <div className="buyer-card" key={index}>
-                                <div className="image-container">
-                                  
-                                    <center>
-                                        <img className="img" src={data.uploadimage[0]} alt="" />
-                                    </center>
-                               
-                                </div>
 
                                 <table className="details-table">
                                     <tbody>
@@ -87,15 +79,11 @@ const Sellerpage = () => {
                                             <th>District</th>
                                             <td>{data.district}</td>
                                         </tr>
-                                       
-                                        
-                                       
                                     </tbody>
                                 </table>
 
-                              <Link to={`property/${data._id}`}> <button className='more'>More</button></Link> 
+                              <Link to={`buyer/${data._id}`}> <button className='more'>More</button> </Link> 
 
-                                
                             </div>
                         );
                     })}
@@ -105,4 +93,4 @@ const Sellerpage = () => {
     )
 }
 
-export default Sellerpage;
+export default BuyerPage;

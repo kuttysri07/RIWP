@@ -32,8 +32,8 @@ const Nav2 = () => {
           {/* Conditionally render the form link based on the page */}
           
 
-          <li>{isPropertiesPage ? <Link to={"/form/properties"} style={{ color: "black", textDecoration: "none" }}>Properties</Link> :""} </li>
-          <li>{isNewhousePage ? <Link to={"/form/newhouses"} style={{ color: "black", textDecoration: "none" }}>New Houses</Link> :"" }</li>
+          <li>{isPropertiesPage ? <Link to={"/form/properties"} style={{ color: "black", textDecoration: "none" }}>Seller</Link> :""} </li>
+          <li>{isNewhousePage ? <Link to={"/form/newhouses"} style={{ color: "black", textDecoration: "none" }}>Buyer</Link> :"" }</li>
 
       
 

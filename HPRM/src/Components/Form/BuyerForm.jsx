@@ -2,16 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import "./sellerform.css"; // Import the CSS file
 import Nav2 from "../Nav2/Nav2";
-import app from "../firebase";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+
 
 const url = import.meta.env.VITE_REACT_APP_URL;
 
-const Sellerform = () => {
-  const [uploading, setUploading] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(false);
-  const [uploadimage, setUploadImage] = useState([]);
-  const [showHPRM, setShowHPRM] = useState(false);
+const BuyerForm = () => {
+  const [number , setNumber] = useState("");
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
   const [propertytype, setPropertyType] = useState({
@@ -25,31 +21,24 @@ const Sellerform = () => {
      clubs  :false 
   });
   const [aboutCompany, setAboutCompany] = useState("");
-  const [propertyName, setPropertyName] = useState("");
   const [plotSizeMin, setPlotSizeMin] = useState("");
   const [plotSizeMax, setPlotSizeMax] = useState("");
-  const [location, setLocation] = useState("");
-  const [nearbySpots, setNearbySpots] = useState("");
+  const [nearbySpots, setNearbySpots] = useState({
+    attapadi: false,
+    anaikatti : false,
+    vaalparai: false,
+    ooty: false,
+    kotagiri : false,
+    conoor: false,
+  });
+  const [otherRegion, setOtherRegion] = useState({
+    kodaikanal : false,
+    sirumalai : false,
+    yerkaud: false
+  });
   const [place, setPlace] = useState("");
-  const [googleMap, setGoogleMap] = useState("");
   const [plotPrice, setPlotPrice] = useState("");
-  const [plot, setPlot] = useState({
-    one: true,
-    two: true,
-    three: true,
-    four: true,
-    five: true,
-    six: true,
-    seven: true,
-    eight: true,
-    nine: true,
-    ten: true,
-  });
-  const [status, setStatus] = useState({
-    dtcp: false,
-    rera: false,
-  });
-  const [approve] = useState(false);
+  const [approve] = useState(true);
   const [loading, setLoading] = useState(false); // Track loading state
   const [submit, setSubmit] = useState(false);
   const [err, setErr] = useState("");
@@ -59,14 +48,19 @@ const Sellerform = () => {
     construction :false,
     propertyManagement:false,
     resortsManagement :false,
+    incomeGeneration : false,
+    resortMarketing :false 
   });
+  const [gowith , setGoWith] = useState({
+   propertyManagementCompany :false,
+   brokers:false,
+  })
 
   
 
  
 
   const Properties = {
-    uploadimage,
     state,
     district,
     propertytype,
@@ -74,61 +68,25 @@ const Sellerform = () => {
     aboutCompany,
     plotSizeMin,
     plotSizeMax,
-    location,
-    nearbySpots,
     place,
-    googleMap,
     plotPrice,
-    plot,
     approve,
-    status,
     usedFor,
     support,
-    isAgreed
+    otherRegion,
+    number,
+    nearbySpots,
+    gowith
 
   };
 
-  const handleChangeImg = async (e) => {
-    const images = e.target.files; // Get the selected files (FileList)
-
-    // Check if exactly 5 images are selected
-    if (images.length > 0) {
-      try {
-        setUploading(true);
-        const storage = getStorage(app);
-        const downloadUrls = [];
-
-        // Loop through each of the 5 images and upload
-        for (let i = 0; i < images.length; i++) {
-          const image = images[i];
-          const storageRef = ref(storage, `${propertyName}/` + image.name);
-
-          // Upload the image to Firebase storage
-          await uploadBytes(storageRef, image);
-
-          // Get the download URL and add to the array
-          const downloadUrl = await getDownloadURL(storageRef);
-          downloadUrls.push(downloadUrl);
-        }
-
-        // Set the array of image URLs in the state
-        setUploadImage(downloadUrls);
-        setUploading(false);
-      } catch (error) {
-        console.log(error.message);
-        setUploading(false);
-      }
-    } else {
-      console.log("upload error");
-    }
-  };
-
+ 
   const submithandler = (e) => {
     e.preventDefault(); // Prevent form reload
     setLoading(true); // Set loading to true on submit
     setErr(""); // Reset the error message
     axios
-      .post(`${url}propertyregister`, Properties)
+      .post(`${url}newhousesregister`, Properties)
       .then((res) => {
         setSubmit(true); // Form submitted successfully
         console.log(res);
@@ -144,15 +102,18 @@ const Sellerform = () => {
       });
   };
 
+  const spots = ["attapadi", "anaikatti", "vaalparai", "ooty", "kotagiri", "conoor"];
+
+  const regions = ["kodaikanal", "sirumalai", "yerkaud"];
   return (
     <div className="sellerform-container">
       <Nav2 />
       <form className="sellerform-form" onSubmit={submithandler}>
-        <h2>Register Properties Information</h2> <br />
+        <h2>Register Buyer Information</h2> <br />
 
-        <label className="sellerform-label">General Details </label>
+        <label className="sellerform-label"> Buyer Details </label>
 
-        <label className="sellerform-label">Property ID</label>
+        <label className="sellerform-label">Buyer ID</label>
         <input
           className="sellerform-input"
           type="text"
@@ -1003,12 +964,20 @@ const Sellerform = () => {
           value={place}
           onChange={(e) => setPlace(e.target.value)}
         />
-                <label className="sellerform-label">About Property</label>
+                <label className="sellerform-label">About Buyer Requirements</label>
         <input
           className="sellerform-input"
           type="text"
           value={aboutCompany}
           onChange={(e) => setAboutCompany(e.target.value)}
+        />
+
+        <label className="sellerform-label">Mobile Number</label>
+        <input
+          className="sellerform-input"
+          type="number"
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
         />
 
         <label className="sellerform-label">Property Details</label>
@@ -1046,7 +1015,7 @@ const Sellerform = () => {
 
 
 <div className="space-y-4">
-  <label className="block text-lg font-semibold text-gray-700">Used For</label>
+  <label className="block text-lg font-semibold text-gray-700">Required For</label>
 
   <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
     <input 
@@ -1097,7 +1066,7 @@ const Sellerform = () => {
           value={plotSizeMin}
           onChange={(e) => setPlotSizeMin(e.target.value)}
         />
-        <label className="sellerform-label">Max Plot Size (Cent)</label>
+        <label className="sellerform-label">Max Plot Sixe Size (Cent)</label>
         <input
           className="sellerform-input"
           type="number"
@@ -1112,54 +1081,10 @@ const Sellerform = () => {
           value={plotPrice}
           onChange={(e) => setPlotPrice(e.target.value)}
         />
-
-<label for="file-upload" className="custom-file-upload">
-          {" "}
-          Upload Image{" "}
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          multiple
-          onChange={handleChangeImg}
-        />
-        <center>
-          <p>{uploading ? "Please wait Uploading Image " : ""} </p>{" "}
-        </center>
-        
-        <div className="space-y-4">
-  <label className="block text-lg font-semibold text-gray-700">Approvals</label>
-
-  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
-    <input 
-      type="checkbox" 
-      id="dtcp" 
-      checked={status.dtcp} 
-      onChange={(e) => setStatus((prevstatus) => ({
-        ...prevstatus, dtcp: e.target.checked
-      }))} 
-      className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
-    />
-    <label htmlFor="dtcp" className="text-gray-700 text-md cursor-pointer">DTCP</label>
-  </div>
-
-  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
-    <input 
-      type="checkbox" 
-      id="rera" 
-      checked={status.rera} 
-      onChange={(e) => setStatus((prevstatus) => ({
-        ...prevstatus, rera: e.target.checked
-      }))} 
-      className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
-    />
-    <label htmlFor="rera" className="text-gray-700 text-md cursor-pointer">RERA</label>
-  </div>
-</div>
-
+  
       
 <div className="space-y-4">
-  <label className="block text-lg font-semibold text-gray-700">Support</label>
+  <label className="block text-lg font-semibold text-gray-700">Required Supports</label>
 
   {[
     { id: "basicAmenities", label: "Basic Amenities", key: "basicAmeneties" },
@@ -1167,6 +1092,8 @@ const Sellerform = () => {
     { id: "construction", label: "Construction", key: "construction" },
     { id: "propertyManagement", label: "Property Management", key: "propertyManagement" },
     { id: "resortsManagement", label: "Resorts Management", key: "resortsManagement" },
+    { id: "incomeGeneration", label: "Income Generation", key: "incomeGeneration" },
+    { id: "resortMarketing", label: "Resort Marketing & Booking", key: "resortMarketing" },
   ].map(({ id, label, key }) => (
     <div key={id} className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
       <input 
@@ -1185,229 +1112,74 @@ const Sellerform = () => {
 </div>
 
   <label className="sellerform-label">Property Location</label>
-  <label className="sellerform-label">Location</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+
+
+
+<label className="sellerform-label">Nearby Coimbatore Spots</label>
+
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {spots.map((spot) => (
+      <div key={spot} className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+        <input 
+          type="checkbox" 
+          checked={nearbySpots[spot]} 
+          onChange={(e) => setNearbySpots((prev) => ({
+            ...prev, [spot]: e.target.checked
+          }))} 
+          className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
         />
-
-<label className="sellerform-label">Google Map Link</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={googleMap}
-          onChange={(e) => setGoogleMap(e.target.value)}
-        />
-
-
-<label className="sellerform-label">Nearby Spots</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={nearbySpots}
-          onChange={(e) => setNearbySpots(e.target.value)}
-        />
-
-
-
-
-
-
-    <div className="p-4">
-      {/* Checkbox for Agreement */}
-      <div className="flex items-center gap-3 mb-4">
-        <input
-          type="checkbox"
-          id="hprmAgreement"
-          checked={isAgreed}
-          onChange={(e) => setIsAgreed(e.target.checked)}
-          className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
-        />
-        <label htmlFor="hprmAgreement" className="text-gray-700 text-md cursor-pointer">
-          I agree to HPRM Support
-        </label>
+        <label htmlFor={spot} className="text-gray-700 text-md cursor-pointer capitalize">{spot}</label>
       </div>
+    ))}
+  </div>
 
-      {/* Show Agreement Status */}
-      <p className={`mb-4 font-semibold ${isAgreed ? "text-green-600" : "text-red-500"}`}>
-        {isAgreed ? "✅ HPRM Support Agreed" : "❌ HPRM Support Not Agreed"}
-      </p>
+  <label className="sellerform-label">Other Region</label>
 
-      {/* Info Button */}
-      <button
-        onClick={() => setShowHPRM(!showHPRM)}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-        type="button"
-      >
-        Show HPRM Info
-      </button>
 
-      {/* Info Section */}
-      {showHPRM && (
-        <div className="mt-6 p-4 border rounded shadow bg-gray-50">
-          <h2 className="text-lg font-bold text-center">HPRM Supports</h2>
-          <ul className="list-disc pl-6 mt-3 text-gray-700">
-            <li>Buy Lands</li>
-            <li>Basic & Premium Features</li>
-            <li>Amenities - Multi Types</li>
-            <li>Property Management</li>
-            <li>Construction</li>
-            <li>Resort Management</li>
-            <li>Income Generation - Resort Marketing & Booking</li>
-          </ul>
-
-          <h3 className="text-lg font-bold mt-4">Basic & Premium Features & Amenities</h3>
-          <ul className="list-disc pl-6 mt-2 text-gray-700">
-            <li>Infrastructure</li>
-            <li>Security and Safety Features</li>
-            <li>Health and Wealth Amenities</li>
-            <li>Luxury Amenities</li>
-            <li>Eco-Friendly Amenities</li>
-            <li>Landscape Features</li>
-            <li>Technology Features</li>
-            <li>Other Amenities</li>
-          </ul>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+      {regions.map((region) => (
+        <div key={region} className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+          <input 
+            type="checkbox" 
+            checked={otherRegion[region]} 
+            onChange={(e) => setOtherRegion((prev) => ({
+              ...prev, [region]: e.target.checked
+            }))} 
+            className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+          />
+          <label htmlFor={region} className="text-gray-700 text-md cursor-pointer capitalize">{region}</label>
         </div>
-      )}
+      ))}
     </div>
-  
 
-
-      
-
-
-
-
-        <label className="sellerform-label">
-          Closed Plots / Remaining Plot
-        </label>
-        <div className="sellerform-role">
-          <label>1</label>
-          <input
-            type="checkbox"
-            checked={plot.one}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                one: e.target.checked,
-              }))
-            }
-          />
-
-          <label>2</label>
-          <input
-            type="checkbox"
-            checked={plot.two}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                two: e.target.checked,
-              }))
-            }
-          />
-
-          <label>3</label>
-          <input
-            type="checkbox"
-            checked={plot.three}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                three: e.target.checked,
-              }))
-            }
-          />
-
-          <label>4</label>
-          <input
-            type="checkbox"
-            checked={plot.four}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                four: e.target.checked,
-              }))
-            }
-          />
-
-          <label>5</label>
-          <input
-            type="checkbox"
-            checked={plot.five}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                five: e.target.checked,
-              }))
-            }
-          />
-
-          <label>6</label>
-          <input
-            type="checkbox"
-            checked={plot.six}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                six: e.target.checked,
-              }))
-            }
-          />
-
-          <label>7</label>
-          <input
-            type="checkbox"
-            checked={plot.seven}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                seven: e.target.checked,
-              }))
-            }
-          />
-
-          <label>8</label>
-          <input
-            type="checkbox"
-            checked={plot.eight}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                eight: e.target.checked,
-              }))
-            }
-          />
-
-          <label>9</label>
-          <input
-            type="checkbox"
-            checked={plot.nine}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                nine: e.target.checked,
-              }))
-            }
-          />
-
-          <label>10</label>
-          <input
-            type="checkbox"
-            checked={plot.ten}
-            onChange={(e) =>
-              setPlot((prevPlot) => ({
-                ...prevPlot,
-                ten: e.target.checked,
-              }))
-            }
-          />
-        </div>
+    <label className="sellerform-label">Go with</label>
+    <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      checked={gowith.propertyManagementCompany} 
+      onChange={(e) => setGoWith((prev) => ({
+        ...prev, propertyManagementCompany: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="resorts" className="text-gray-700 text-md cursor-pointer">Property Management Company</label>
+  </div>
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      checked={gowith.brokers} 
+      onChange={(e) => setGoWith((prev) => ({
+        ...prev, brokers: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="resorts" className="text-gray-700 text-md cursor-pointer">Brokers/Agents</label>
+  </div>
+    
         <button
           className="sellerform-button"
           type="submit"
-          disabled={loading || submit || uploading}
+          disabled={loading || submit}
         >
           {loading ? "Submitting..." : submit ? "Form Submitted" : "Submit"}
         </button>
@@ -1421,4 +1193,4 @@ const Sellerform = () => {
   );
 };
 
-export default Sellerform;
+export default BuyerForm;

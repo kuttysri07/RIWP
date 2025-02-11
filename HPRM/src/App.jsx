@@ -14,6 +14,9 @@ import Sellerform from "./Components/Form/Sellerform";
 import "react-toastify/dist/ReactToastify.css";
 import Product from "./Components/Product/Product";
 import Property from "./Components/Product/Property";
+import BuyerPage from "./Components/Buyer/BuyerPage";
+import BuyerForm from "./Components/Form/BuyerForm";
+import BuyerView from "./Components/Product/BuyerView";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -44,11 +47,12 @@ const App = () => {
             </Fragment>
           }
         ></Route>
-        <Route path="/newhouses" element={<Buyerpage />}></Route>
+        <Route path="/newhouses" element={<BuyerPage />}></Route>
         <Route path="/properties" element={<Sellerpage />}></Route>
-        <Route path="/form/newhouses" element={<From />}></Route>
+      
+        <Route path="/form/newhouses" element={<BuyerForm />}></Route>
         <Route path="/form/properties" element={<Sellerform />}></Route>
-        <Route path="newhouses/newhouse/:id" element={<Product />}></Route>
+        <Route path="newhouses/buyer/:id" element={<BuyerView />}></Route>
         <Route path="properties/property/:id" element={<Property />}></Route>
       </Routes>
       <ToastContainer />

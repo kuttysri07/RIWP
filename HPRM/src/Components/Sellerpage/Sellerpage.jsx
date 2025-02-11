@@ -87,10 +87,7 @@ const Sellerpage = () => {
                                             <th>District</th>
                                             <td>{data.district}</td>
                                         </tr>
-                                        <tr>
-                                            <th>Property Type</th>
-                                            <td>{data.propertytype}</td>
-                                        </tr>
+                                       
                                         
                                        
                                     </tbody>
@@ -98,109 +95,7 @@ const Sellerpage = () => {
 
                               <Link to={`property/${data._id}`}> <button className='more'>More</button></Link> 
 
-                                {/* {activeSellerId === data._id && (
-                                     <table className="details-table">
-                                     <tbody>
-                                             <tr>
-                                                 <th>About Company</th>
-                                                 <td>{data.aboutCompany}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Property Name</th>
-                                                 <td>{data.propertyName}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Property Details</th>
-                                                 <td>{data.propertyDetails}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Features</th>
-                                                 <td>{data.features}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Amenities</th>
-                                                 <td>{data.amenities}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>No. of Plots</th>
-                                                 <td>{data.noOfPlots}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Plot Size (Min sq.ft)</th>
-                                                 <td>{data.plotSizeMin}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Plot Size (Max sq.ft)</th>
-                                                 <td>{data.plotSizeMax}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Location</th>
-                                                 <td>{data.location}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Nearby Spots</th>
-                                                 <td>{data.nearbySpots}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Status Approvel</th>
-                                                 <td>{data.status.dtcp&&data.status.rera ? "DTCP AND RERA " :data.status.dtcp ? "DTCP" :data.status.rera? "RERA Facing" :""}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Legalities</th>
-                                                 <td>{data.legalities}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Address</th>
-                                                 <td>{data.address}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Place</th>
-                                                 <td>{data.place}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Google Map</th>
-                                                 <td>{data.googleMap}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Launch Date</th>
-                                                 <td>{data.launchDate}</td>
-                                             </tr>
-                                             <tr>
-                                                 <th>Plot Price (sq.ft)</th>
-                                                 <td>{data.plotPrice}</td>
-                                             </tr>
-                                 <tr>
-                                 <th>Closed Plots / Remaining Plot</th>
-                                       <td>
-                                         1
-                                         <input type="checkbox" checked={data.plot.one} />
-                                         2
-                                         <input type="checkbox" checked={data.plot.two} />
-                                         3
-                                         <input type="checkbox" checked={data.plot.three} />
-                                         4
-                                         <input type="checkbox" checked={data.plot.four} />
-                                         5
-                                         <input type="checkbox" checked={data.plot.five} />
-                                         6
-                                         <input type="checkbox" checked={data.plot.six} />
-                                         7
-                                         <input type="checkbox" checked={data.plot.seven} />
-                                         8
-                                         <input type="checkbox" checked={data.plot.eight} />
-                                         9
-                                         <input type="checkbox" checked={data.plot.nine} />
-                                         10
-                                         <input type="checkbox" checked={data.plot.ten} />
-                                       </td>
-                                 </tr>
-         
-                                     
-         
-                                 
-                             </tbody>
-                         </table>
-                                )} */}
+                                
                             </div>
                         );
                     })}

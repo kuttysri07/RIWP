@@ -9,28 +9,29 @@ const url = import.meta.env.VITE_REACT_APP_URL;
 
 const Sellerform = () => {
   const [uploading, setUploading] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
   const [uploadimage, setUploadImage] = useState([]);
   const [showHPRM, setShowHPRM] = useState(false);
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
-  const [propertytype, setPropertyType] = useState("");
+  const [propertytype, setPropertyType] = useState({
+    hillArea : false,
+    farmLand: false
+  });
   const [propertyId, setPropertyId] = useState("");
-  const [usedFor , setUsedFor] = useState("");
+  const [usedFor , setUsedFor] = useState({
+     resorts:false,
+     agriculture :false,
+     clubs  :false 
+  });
   const [aboutCompany, setAboutCompany] = useState("");
   const [propertyName, setPropertyName] = useState("");
-  const [propertyDetails, setPropertyDetails] = useState("");
-  const [features, setFeatures] = useState("");
-  const [amenities, setAmenities] = useState("");
-  const [noOfPlots, setNoOfPlots] = useState("");
   const [plotSizeMin, setPlotSizeMin] = useState("");
   const [plotSizeMax, setPlotSizeMax] = useState("");
   const [location, setLocation] = useState("");
   const [nearbySpots, setNearbySpots] = useState("");
-  const [legalities, setLegalities] = useState("");
-  const [address, setAddress] = useState("");
   const [place, setPlace] = useState("");
   const [googleMap, setGoogleMap] = useState("");
-  const [launchDate, setLaunchDate] = useState("");
   const [plotPrice, setPlotPrice] = useState("");
   const [plot, setPlot] = useState({
     one: true,
@@ -52,9 +53,17 @@ const Sellerform = () => {
   const [loading, setLoading] = useState(false); // Track loading state
   const [submit, setSubmit] = useState(false);
   const [err, setErr] = useState("");
-  const [support ,setSupport] = useState("");
+  const [support ,setSupport] = useState({
+    basicAmeneties:false,
+    premiumAmeneties :false,
+    construction :false,
+    propertyManagement:false,
+    resortsManagement :false,
+  });
 
-  // const navigate = useNavigate();
+  
+
+ 
 
   const Properties = {
     uploadimage,
@@ -63,26 +72,19 @@ const Sellerform = () => {
     propertytype,
     propertyId,
     aboutCompany,
-    propertyName,
-    propertyDetails,
-    features,
-    amenities,
-    noOfPlots,
     plotSizeMin,
     plotSizeMax,
     location,
     nearbySpots,
-    legalities,
-    address,
     place,
     googleMap,
-    launchDate,
     plotPrice,
     plot,
     approve,
     status,
     usedFor,
     support,
+    isAgreed
 
   };
 
@@ -139,7 +141,6 @@ const Sellerform = () => {
       })
       .finally(() => {
         setLoading(false); // Stop loading after request completes
-        // navigate("/properties");
       });
   };
 
@@ -148,6 +149,8 @@ const Sellerform = () => {
       <Nav2 />
       <form className="sellerform-form" onSubmit={submithandler}>
         <h2>Register Properties Information</h2> <br />
+
+        <label className="sellerform-label">General Details </label>
 
         <label className="sellerform-label">Property ID</label>
         <input
@@ -1007,64 +1010,87 @@ const Sellerform = () => {
           value={aboutCompany}
           onChange={(e) => setAboutCompany(e.target.value)}
         />
-        <label className="sellerform-label">Property Type</label>
-        <select  className="sellerform-input" value={propertytype} onChange={(e)=> setPropertyType(e.target.value)}>
-          <option value="Hill Area">Hill Area </option>
-          <option value="Farm Land">Farm Land</option>
-        </select>
-       
 
-        
-
-        <label className="sellerform-label">Property Name</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={propertyName}
-          onChange={(e) => setPropertyName(e.target.value)}
-        />
-        <label for="file-upload" className="custom-file-upload">
-          {" "}
-          Upload Image{" "}
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          multiple
-          onChange={handleChangeImg}
-        />
-        <center>
-          <p>{uploading ? "Please wait Uploading Image " : ""} </p>{" "}
-        </center>
         <label className="sellerform-label">Property Details</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={propertyDetails}
-          onChange={(e) => setPropertyDetails(e.target.value)}
-        />
-        <label className="sellerform-label">Features</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={features}
-          onChange={(e) => setFeatures(e.target.value)}
-        />
-        <label className="sellerform-label">Amenities</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={amenities}
-          onChange={(e) => setAmenities(e.target.value)}
-        />
-        <label className="sellerform-label">Number of Plots</label>
-        <input
-          className="sellerform-input"
-          type="number"
-          value={noOfPlots}
-          onChange={(e) => setNoOfPlots(e.target.value)}
-        />
-        <label className="sellerform-label">Min Plot Size (Cent) </label>
+
+        <div className="space-y-4">
+  <label className="block text-lg font-semibold text-gray-700">Property Type</label>
+  
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="hillArea" 
+      checked={propertytype.hillArea} 
+      onChange={(e) => setPropertyType((prev) => ({
+        ...prev, hillArea: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="hillArea" className="text-gray-700 text-md cursor-pointer">Hill Area</label>
+  </div>
+
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="farmLand" 
+      checked={propertytype.farmLand} 
+      onChange={(e) => setPropertyType((prev) => ({
+        ...prev, farmLand: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="farmLand" className="text-gray-700 text-md cursor-pointer">Farm Land</label>
+  </div>
+</div>
+
+
+
+<div className="space-y-4">
+  <label className="block text-lg font-semibold text-gray-700">Used For</label>
+
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="resorts" 
+      checked={usedFor.resorts} 
+      onChange={(e) => setUsedFor((prev) => ({
+        ...prev, resorts: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="resorts" className="text-gray-700 text-md cursor-pointer">Resorts</label>
+  </div>
+
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="agriculture" 
+      checked={usedFor.agriculture} 
+      onChange={(e) => setUsedFor((prev) => ({
+        ...prev, agriculture: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="agriculture" className="text-gray-700 text-md cursor-pointer">Agriculture</label>
+  </div>
+
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="clubs" 
+      checked={usedFor.clubs} 
+      onChange={(e) => setUsedFor((prev) => ({
+        ...prev, clubs: e.target.checked
+      }))} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="clubs" className="text-gray-700 text-md cursor-pointer">Clubs/Activities</label>
+  </div>
+</div>
+
+
+       
+  <label className="sellerform-label">Min Plot Size (Cent) </label>
         <input
           className="sellerform-input"
           type="number"
@@ -1078,117 +1104,147 @@ const Sellerform = () => {
           value={plotSizeMax}
           onChange={(e) => setPlotSizeMax(e.target.value)}
         />
-        <label className="sellerform-label">Location</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <label className="sellerform-label">Nearby Spots</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={nearbySpots}
-          onChange={(e) => setNearbySpots(e.target.value)}
-        />
-        <label className="sellerform-label">Legalities</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={legalities}
-          onChange={(e) => setLegalities(e.target.value)}
-        />
-        <label className="sellerform-label">Address</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <label className="sellerform-label">Google Map Link</label>
-        <input
-          className="sellerform-input"
-          type="text"
-          value={googleMap}
-          onChange={(e) => setGoogleMap(e.target.value)}
-        />
-        <label className="sellerform-label">Launch / Launched Date</label>
-        <input
-          className="sellerform-input"
-          type="date"
-          value={launchDate}
-          onChange={(e) => setLaunchDate(e.target.value)}
-        />
-        <label className="sellerform-label">Plot Price</label>
+
+<label className="sellerform-label">Plot Price</label>
         <input
           className="sellerform-input"
           type="number"
           value={plotPrice}
           onChange={(e) => setPlotPrice(e.target.value)}
         />
-        <label className="sellerform-label">Active Status</label>
-        <label>DTCP</label>
+
+<label for="file-upload" className="custom-file-upload">
+          {" "}
+          Upload Image{" "}
+        </label>
+        <input
+          id="file-upload"
+          type="file"
+          multiple
+          onChange={handleChangeImg}
+        />
+        <center>
+          <p>{uploading ? "Please wait Uploading Image " : ""} </p>{" "}
+        </center>
+        
+        <div className="space-y-4">
+  <label className="block text-lg font-semibold text-gray-700">Approvals</label>
+
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="dtcp" 
+      checked={status.dtcp} 
+      onChange={(e) => setStatus((prevstatus) => ({
+        ...prevstatus, dtcp: e.target.checked
+      }))} 
+      className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+    />
+    <label htmlFor="dtcp" className="text-gray-700 text-md cursor-pointer">DTCP</label>
+  </div>
+
+  <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+    <input 
+      type="checkbox" 
+      id="rera" 
+      checked={status.rera} 
+      onChange={(e) => setStatus((prevstatus) => ({
+        ...prevstatus, rera: e.target.checked
+      }))} 
+      className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+    />
+    <label htmlFor="rera" className="text-gray-700 text-md cursor-pointer">RERA</label>
+  </div>
+</div>
+
+      
+<div className="space-y-4">
+  <label className="block text-lg font-semibold text-gray-700">Support</label>
+
+  {[
+    { id: "basicAmenities", label: "Basic Amenities", key: "basicAmeneties" },
+    { id: "premiumAmenities", label: "Premium Amenities", key: "premiumAmeneties" },
+    { id: "construction", label: "Construction", key: "construction" },
+    { id: "propertyManagement", label: "Property Management", key: "propertyManagement" },
+    { id: "resortsManagement", label: "Resorts Management", key: "resortsManagement" },
+  ].map(({ id, label, key }) => (
+    <div key={id} className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition">
+      <input 
+        type="checkbox" 
+        id={id} 
+        checked={support[key]} 
+        onChange={(e) => setSupport((prev) => ({
+          ...prev,
+          [key]: e.target.checked
+        }))} 
+        className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+      />
+      <label htmlFor={id} className="text-gray-700 text-md cursor-pointer">{label}</label>
+    </div>
+  ))}
+</div>
+
+  <label className="sellerform-label">Property Location</label>
+  <label className="sellerform-label">Location</label>
+        <input
+          className="sellerform-input"
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+
+<label className="sellerform-label">Google Map Link</label>
+        <input
+          className="sellerform-input"
+          type="text"
+          value={googleMap}
+          onChange={(e) => setGoogleMap(e.target.value)}
+        />
+
+
+<label className="sellerform-label">Nearby Spots</label>
+        <input
+          className="sellerform-input"
+          type="text"
+          value={nearbySpots}
+          onChange={(e) => setNearbySpots(e.target.value)}
+        />
+
+
+
+
+
+
+    <div className="p-4">
+      {/* Checkbox for Agreement */}
+      <div className="flex items-center gap-3 mb-4">
         <input
           type="checkbox"
-          checked={status.dtcp}
-          onChange={(e) =>
-            setStatus((prevstatus) => ({
-              ...prevstatus,
-              dtcp: e.target.checked,
-            }))
-          }
+          id="hprmAgreement"
+          checked={isAgreed}
+          onChange={(e) => setIsAgreed(e.target.checked)}
+          className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
         />
-        <label>RERA</label>
-        <input
-          type="checkbox"
-          checked={status.rera}
-          onChange={(e) =>
-            setStatus((prevstatus) => ({
-              ...prevstatus,
-              rera: e.target.checked,
-            }))
-          }
-        />
+        <label htmlFor="hprmAgreement" className="text-gray-700 text-md cursor-pointer">
+          I agree to HPRM Support
+        </label>
+      </div>
 
-<label className="sellerform-label">Used For</label>
-  <select
-    className="sellerform-input px-2 py-2 border rounded"
-    value={usedFor}
-    onChange={(e) => setUsedFor(e.target.value)}
-  >
-    <option value="">Select</option>
-    <option value="resorts">Resorts</option>
-    <option value="agriculture">Agriculture</option>
-    <option value="clubs">Clubs/Activities</option>
-  </select>
+      {/* Show Agreement Status */}
+      <p className={`mb-4 font-semibold ${isAgreed ? "text-green-600" : "text-red-500"}`}>
+        {isAgreed ? "✅ HPRM Support Agreed" : "❌ HPRM Support Not Agreed"}
+      </p>
 
+      {/* Info Button */}
+      <button
+        onClick={() => setShowHPRM(!showHPRM)}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        type="button"
+      >
+        Show HPRM Info
+      </button>
 
-  <label className="sellerform-label">Support</label>
-  <select
-    className="sellerform-input px-2 py-2 border rounded"
-    value={support}
-    onChange={(e) => setSupport(e.target.value)}
-  >
-    <option value="">Select</option>
-    <option value="basic">Basic Amenities</option>
-    <option value="premium">Premium Amenities</option>
-    <option value="construction">Construction</option>
-    <option value="property-management">Property Management</option>
-    <option value="resorts-management">Resorts Management</option>
-  </select>
-
-  <button
-  onClick={() => setShowHPRM(!showHPRM)}
-  className="px-4 py-2 bg-blue-500 text-white rounded mt-4"
-  type="button"
->
-  HPRM Supports
-</button>
-
- 
-
-
+      {/* Info Section */}
       {showHPRM && (
         <div className="mt-6 p-4 border rounded shadow bg-gray-50">
           <h2 className="text-lg font-bold text-center">HPRM Supports</h2>
@@ -1215,6 +1271,14 @@ const Sellerform = () => {
           </ul>
         </div>
       )}
+    </div>
+  
+
+
+      
+
+
+
 
         <label className="sellerform-label">
           Closed Plots / Remaining Plot

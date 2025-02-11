@@ -4,27 +4,33 @@ const PropertySchema = new mongoose.Schema({
     uploadimage: [String], // Changed to an array of strings for multiple image URLs
     state: String,
     district: String,
-    propertytype: String,
+    propertytype: {
+        hillArea :{ type: Boolean, default: false } ,
+        farmLand :{ type: Boolean, default: false }
+    },
     propertyId: String, 
     aboutCompany: String, 
-    propertyName: String, 
-    propertyDetails: String,
-    features: String,
-    amenities: String,
-    noOfPlots: Number, 
     plotSizeMin: Number, 
     plotSizeMax: Number,
     location: String,
     nearbySpots: String,
-    legalities: String,
-    address: String,
     place: String,
     googleMap: String, 
-    launchDate: Date,
     plotPrice: Number,
-    approve: Boolean,
-    usedFor:String,
-    support:String,
+    approve: { type: Boolean, default: true },
+    usedFor:{
+        resorts :{ type: Boolean, default: false },
+        agriculture :{ type: Boolean, default: false },
+        clubs:{ type: Boolean, default: false }
+    },
+    support: {
+        basicAmeneties :{ type: Boolean, default: false },
+        premiumAmeneties  :{ type: Boolean, default: false },
+        construction  :{ type: Boolean, default: false },
+        propertyManagement  :{ type: Boolean, default: false },
+        resortsManagement  :{ type: Boolean, default: false }
+    },
+    isAgreed :{ type: Boolean, default: false },
     
     plot: {  
         one: { type: Boolean, default: true },
@@ -41,7 +47,8 @@ const PropertySchema = new mongoose.Schema({
     status: {  
         dtcp: { type: Boolean, default: false },
         rera: { type: Boolean, default: false }
-    }
+    },
+  
 });
 
 const PropertyModel = mongoose.model("propertyregister", PropertySchema);

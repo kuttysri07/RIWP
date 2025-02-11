@@ -1,9 +1,7 @@
 import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Nav2 from "../Nav2/Nav2";
-import { Image } from "antd";
-import "./property.css";
 
 const url = import.meta.env.VITE_REACT_APP_URL;
 
@@ -13,164 +11,140 @@ const Property = () => {
   const [err, setErr] = useState(null);
   const { id } = useParams();
 
-  const getsingleProperty = async () => {
-    try {
-      const res = await axios.get(`${url}getsingleproperty/${id}`);
-      setDetails(res.data);
-    } catch (error) {
-      setErr("Single product fetching Error: " + error.message);
-    }
-  };
-
   useEffect(() => {
     if (id) {
+      const getsingleProperty = async () => {
+        try {
+          const res = await axios.get(`${url}getsingleproperty/${id}`);
+          setDetails(res.data);
+        } catch (error) {
+          setErr("Error fetching property details: " + error.message);
+        }
+      };
       getsingleProperty();
     }
   }, [id]);
 
   const handleLeftArrowClick = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
+    setCount((prev) => Math.max(prev - 1, 0));
   };
 
   const handleRightArrowClick = () => {
-    if (count < details.uploadimage.length - 1) {
-      setCount(count + 1);
+    if (details?.uploadimage?.length > 0) {
+      setCount((prev) => Math.min(prev + 1, details.uploadimage.length - 1));
     }
   };
 
+  const renderCheckedItems = (obj) => {
+    return obj
+      ? Object.entries(obj)
+          .filter(([_, value]) => value)
+          .map(([key]) => key)
+          .join(", ")
+      : "N/A";
+  };
+
+  if (err) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-600 text-lg font-semibold">
+        <h2>{err}</h2>
+      </div>
+    );
+  }
+
   if (!details) {
-    return <div className="loading">Loading...</div>;
+    return <div className="flex justify-center items-center h-screen text-lg font-semibold">Loading...</div>;
   }
 
   return (
-    <div>
-      <Fragment>
-        <Nav2 />
-
-        {err ? (
-          <div style={{ textAlign: "center", color: "red", marginTop: "20px" }}>
-            <h2>{err}</h2>
-          </div>
-        ) : (
-          <div className="property-container">
-            <div className="property-card">
-              <div className="image-slider">
-                <button
-                  className="arrow-btn left-btn"
-                  onClick={handleLeftArrowClick}
-                >
-                  &lt;
-                </button>
-                <center>
-                  {/* <img className="product-image" src={details.uploadimage[count]} alt="" /> */}
-                  <div className="product-image-wrapper">
-                    <Image
-                      src={details.uploadimage[count]}
-                      alt={details.title}
-                    />
-                  </div>
-                </center>
-                <button
-                  className="arrow-btn right-btn"
-                  onClick={handleRightArrowClick}
-                >
-                  &gt;
-                </button>
-              </div>
-
-              <div className="property-info">
-                <h2 className="property-title">{details.propertyName}</h2>
-                <p className="project-name">{details.companyName}</p>
-                <p className="property-description">
-                  {details.propertyDetails}
-                </p>
-
-                <div className="property-features">
-                  <h3>Property Information</h3>
-                  <div className="details-grid">
-                    <div className="detail-item">
-                      <strong>State:</strong> {details.state}
-                    </div>
-                    <div className="detail-item">
-                      <strong>District:</strong> {details.district}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Place:</strong> {details.place}
-                    </div>
-                    <div className="detail-item">
-                      <strong>About Property:</strong> {details.aboutCompany}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Type:</strong> {details.propertytype}
-                    </div>
-
-                    <div className="detail-item">
-                      <strong>Used For:</strong> {details.usedFor}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Amenities:</strong> {details.amenities}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Features:</strong> {details.features}
-                    </div>
-                    <div className="detail-item">
-                      <strong>No. of Plots:</strong> {details.noOfPlots}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Plot Size (Min):</strong> {details.plotSizeMin}{" "}
-                      Cent
-                    </div>
-                    <div className="detail-item">
-                      <strong>Plot Size (Max):</strong> {details.plotSizeMax}{" "}
-                      Cent
-                    </div>
-                    <div className="detail-item">
-                      <strong>Location:</strong> {details.location}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Nearby Spots:</strong> {details.nearbySpots}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Plot Price:</strong> {details.plotPrice}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Status Approval:</strong>
-                      {details.status.dtcp && details.status.rera
-                        ? "DTCP AND RERA "
-                        : details.status.dtcp
-                        ? "DTCP"
-                        : details.status.rera
-                        ? "RERA Facing"
-                        : ""}
-                    </div>
-
-                   
-                    <div className="detail-item">
-                      <strong>Supports:</strong> {details.support}
-                    </div>
-                  </div>
-
-                  <h3>Plot Availability</h3>
-                  <div className="plot-grid">
-                    {Object.keys(details.plot).map((plotKey) => (
-                      <div key={plotKey} className="plot-item">
-                        {plotKey}:{" "}
-                        <input
-                          type="checkbox"
-                          checked={details.plot[plotKey]}
-                          readOnly
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div className="bg-gray-100 min-h-screen pb-10">
+      <Nav2 />
+      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-8 mt-10">
+        {/* Image Slider */}
+        {details.uploadimage?.length > 0 && (
+          <div className="relative w-full h-96 flex items-center justify-center">
+            <button
+              className="absolute left-4 bg-gray-800 text-white rounded-full p-3 hover:bg-gray-700 transition"
+              onClick={handleLeftArrowClick}
+            >
+              &#10094;
+            </button>
+            <img
+              className="w-full h-full object-cover rounded-md shadow-md"
+              src={details.uploadimage[count] || "fallback-image.jpg"}
+              alt={details.propertyName || "Property"}
+            />
+            <button
+              className="absolute right-4 bg-gray-800 text-white rounded-full p-3 hover:bg-gray-700 transition"
+              onClick={handleRightArrowClick}
+            >
+              &#10095;
+            </button>
           </div>
         )}
-      </Fragment>
+
+        {/* Property Information */}
+        <div className="mt-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">General Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <p className="text-gray-700"><strong>Property ID:</strong> {details.propertyId || "N/A"}</p>
+              <p className="text-gray-700"><strong>State:</strong> {details.state || "N/A"}</p>
+              <p className="text-gray-700"><strong>District:</strong> {details.district || "N/A"}</p>
+              <p className="text-gray-700"><strong>Place:</strong> {details.place || "N/A"}</p>
+              <p className="text-gray-700"><strong>About Property:</strong> {details.aboutCompany || "N/A"}</p>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900">Property Details</h3>
+              <p className="text-gray-700"><strong>Plot Size:</strong> {details.plotSizeMin && details.plotSizeMax ? `${details.plotSizeMin} - ${details.plotSizeMax} Cent` : "N/A"}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Additional Information */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-lg font-semibold">Property Type</h3>
+            <p className="text-gray-700">{renderCheckedItems(details.propertytype)}</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Used For</h3>
+            <p className="text-gray-700">{renderCheckedItems(details.usedFor)}</p>
+          </div>
+        </div>
+
+        {/* Support Features */}
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold">Support Features</h3>
+          <ul className="list-disc list-inside text-gray-700">
+            {details.support ? Object.entries(details.support).filter(([_, value]) => value).map(([key]) => (
+              <li key={key}>{key.replace(/([A-Z])/g, " $1")}</li>
+            )) : "N/A"}
+          </ul>
+        </div>
+
+        {/* Location & Nearby Spots */}
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold">Property Location</h3>
+          <p className="text-gray-700">{details.location}</p>
+          <p className="text-gray-700">{details.googleMap}</p>
+        </div>
+        <div className="mt-4">
+          <p className="text-gray-700"><strong>Nearby Spots:</strong> {details.nearbySpots || "N/A"}</p>
+        </div>
+
+        {/* Plot Availability */}
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold">Plot Availability</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-2">
+            {details.plot ? Object.entries(details.plot).map(([key, value]) => (
+              <div key={key} className={`p-2 text-center text-sm font-semibold rounded-md ${value ? "bg-green-500 text-white" : "bg-gray-300 text-gray-700"}`}>
+                {key}
+              </div>
+            )) : "N/A"}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

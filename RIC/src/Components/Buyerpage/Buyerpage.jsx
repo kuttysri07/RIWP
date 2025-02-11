@@ -33,7 +33,7 @@ const Buyerpage = () => {
                
             })
             .catch(err =>  { 
-              console.log(err);
+              console.log(`error from new houses ${err}`);
               setLoading(false); // Set loading false once data is fetche
               setErr("Server Error"); // Set the message if no users are found
             } );           

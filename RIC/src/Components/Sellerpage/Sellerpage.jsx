@@ -90,10 +90,8 @@ const Sellerpage = () => {
                                             <th>Property Type</th>
                                             <td>{data.propertytype}</td>
                                         </tr>
-                                        <tr>
-                                            <th>Company Name</th>
-                                            <td>{data.companyName}</td>
-                                        </tr>
+                                        
+                                       
                                     </tbody>
                                 </table>
 

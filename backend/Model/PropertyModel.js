@@ -6,7 +6,6 @@ const PropertySchema = new mongoose.Schema({
     district: String,
     propertytype: String,
     propertyId: String, 
-    companyName: String, 
     aboutCompany: String, 
     propertyName: String, 
     propertyDetails: String,
@@ -24,6 +23,8 @@ const PropertySchema = new mongoose.Schema({
     launchDate: Date,
     plotPrice: Number,
     approve: Boolean,
+    usedFor:String,
+    support:String,
     
     plot: {  
         one: { type: Boolean, default: true },

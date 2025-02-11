@@ -175,6 +175,24 @@ const BuyerView = () => {
             {renderCheckedItems(details.otherRegion)}
           </p>
         </div>
+
+        {/* Features Section */}
+{details.features && (
+  <div className="mt-8">
+    <h3 className="text-lg font-semibold">Features</h3>
+    <ul className="list-disc list-inside text-gray-700">
+      <li>Infrastructure</li>
+      <li>Security and Safety Features</li>
+      <li>Health and Wealth Amenities</li>
+      <li>Luxury Amenities</li>
+      <li>Eco-Friendly Amenities</li>
+      <li>Landscape Features</li>
+      <li>Technology Features</li>
+      <li>Other Amenities</li>
+    </ul>
+  </div>
+)}
+
       </div>
     </div>
   );

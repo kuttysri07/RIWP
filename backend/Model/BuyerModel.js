@@ -46,7 +46,8 @@ const PropertySchema = new mongoose.Schema({
     sirumalai: { type: Boolean, default: false },
     yerkaud: { type: Boolean, default: false },
   },
-  number:Number
+  number:Number,
+  features: { type: Boolean, default: false },
 });
 
 const BuyerModel = mongoose.model("buyerregister", PropertySchema);

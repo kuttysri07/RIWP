@@ -56,6 +56,8 @@ const BuyerForm = () => {
    brokers:false,
   })
 
+  const [features , setFeatures] = useState(false)
+
   
 
  
@@ -76,7 +78,8 @@ const BuyerForm = () => {
     otherRegion,
     number,
     nearbySpots,
-    gowith
+    gowith,
+    features
 
   };
 
@@ -1175,6 +1178,18 @@ const BuyerForm = () => {
     />
     <label htmlFor="resorts" className="text-gray-700 text-md cursor-pointer">Brokers/Agents</label>
   </div>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 mt-6">
+  <input 
+      type="checkbox" 
+      id="hillArea" 
+      checked={features} 
+      onChange={(e) => setFeatures(e.target.checked)} 
+      className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    />
+    <label htmlFor="hillArea" className="text-gray-700 text-md cursor-pointer">Required Basic & Premium Features</label>
+  </div>
+ 
     
         <button
           className="sellerform-button"

@@ -23,7 +23,6 @@ const Contact = () => {
           <img src={phone} alt="Call Us" />
         </div>
         <h3>CALL US</h3>
-        <p>Sastha Associates Office</p>
        
         <a href="tel:+919994587405" className='contact-detail'> +91 99945 87405  </a> 
 

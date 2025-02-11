@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <Fragment>
             <div className='homecontainer'>
-                <h1>Discover Your Perfect Living Space.</h1>
+                <h1>Hills Property and Resort Management</h1>
             </div>
     </Fragment>
     
